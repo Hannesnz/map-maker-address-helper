@@ -1,0 +1,36 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Map Maker Circle Overlay Popup</title>
+	<link rel="stylesheet" href="jquery-ui.min.css">
+	<link rel="stylesheet" href="jquery-ui.theme.min.css">
+	<link rel="stylesheet" href="jquery-ui.structure.min.css">
+	<script src="jquery-2.1.4.min.js"></script>
+	<script src="jquery-ui.min.js"></script>
+    <script src="popup.js"></script>
+  </head>
+  <body style='min-width: 250px'>
+    <div id='loading'>
+		<div id='loadingMessage' style='margin: 10px; display:block'></div>
+	</div>
+	<div id="container" style='display:none'>
+		<div id='address-options'>
+			<label for="addressHelp" style='margin-top: 10px; margin-bottom: 5px; display:block'>This will automatically add and save a new address for the given options.</label>
+			<label for="addressStreetNum" style='margin-top: 10px; margin-bottom: 5px; display:block'>Street Number:</label>
+			<input id='addressStreetNum' type="text" style='margin-right: 10px; width:90%; display:block' title='Start adding addresses at this number'>
+			<label for="addressStreetName" style='margin-top: 10px; margin-bottom: 5px; display:block'>Street Name:</label>
+			<input id='addressStreetName' type="text" style='margin-right: 10px; width:90%; display:block' title='This needs to be exactly (case-sensitive) as you would pick it when adding manually'>
+			<label for="addressTownCity" style='margin-top: 10px; margin-bottom: 5px; display:block'>Town / City:</label>
+			<input id='addressTownCity' type="text" style='margin-right: 10px; width:90%; display:block' title='Specify this if the Town / City doesn&apos;t get set automatically'>
+			<input type="checkbox" style='margin-top: 10px' id='autoInc' title='If you specify &apos;Auto Increment&apos;, once you place each address marker you can immediately place the next address number until you cancel'>
+			<label for='autoInc'>Auto Increment</label>
+			<label for="incBy" style='margin-top: 10px; margin-bottom: 5px; display:block'>Increment By:</label>
+			<select name="incBy" id="incBy" style='margin-top: 10px; display:block; width: 100px'>
+				<option>1</option>
+				<option>2</option>
+			</select>
+			<button style='margin-top: 10px; margin-bottom:10px; display:block' id='startAddressAdding'>Start Adding</button>
+		</div>
+	</div>
+  </body>
+</html>
