@@ -1,8 +1,9 @@
 {
   "manifest_version": 2,
 
-  "name": "Map Maker Address Helper",
-  "description": "Overlay a circle, image or KML on Google Map Maker",
+  "name": "__MSG_appName__",  
+  "description": "__MSG_appDesc__",   
+  "default_locale": "en",
   "version": "1.0",
   "background": {
     "scripts": ["background.js"],

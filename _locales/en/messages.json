@@ -1,0 +1,62 @@
+{
+  "appName": {
+    "message": "Map Maker Address Helper",
+    "description": "The title of the application, displayed in the web store."
+  },
+  "appDesc": {
+    "message": "Create address markers in Map Maker with one click",
+    "description":"The description of the application, displayed in the web store."
+  },
+  "loading": {
+    "message": "Loading...",
+    "description":"Message that shows while loading the popup"
+  },
+  "addressHelperDescription": {
+    "message": "This will automatically add and save a new address for the given options.",
+    "description":"Label describing the extenstion in the popup"
+  },
+  "streetNumTitle": {
+    "message": "Street Number:",
+    "description":"Label for street number"
+  },
+  "streetNumHint": {
+    "message": "Start adding addresses at this number",
+    "description":"Hint for street number"
+  },
+  "streetNameTitle": {
+    "message": "Street Name:",
+    "description":"Label for street name"
+  },
+  "streetNameHint": {
+    "message": "This needs to be exactly as you would pick it when adding manually",
+    "description":"Hint for street name"
+  },
+  "townCityTitle": {
+    "message": "Town / City:",
+    "description":"Label for town / city"
+  },
+  "townCityHint": {
+    "message": "Specify this if the Town / City doesn't get set automatically",
+    "description":"Hint for town / city"
+  },
+  "autoIncLabel": {
+    "message": "Auto Increment",
+    "description":"Label for auto increment check box"
+  },
+  "autoIncHint": {
+    "message": "If you specify 'Auto Increment', once you place each address marker you can immediately place the next address number until you cancel",
+    "description":"Hint for auto increment check box"
+  },
+  "incByLabel": {
+    "message": "Increment By:",
+    "description":"Label for increment by drop down"
+  },
+  "startAddingLabel": {
+    "message": "Start Adding",
+    "description":"Label for start adding button"
+  },
+  "showHints": {
+    "message": "Show Hints",
+    "description":"Label for show hints toggle menu item"
+  }
+}

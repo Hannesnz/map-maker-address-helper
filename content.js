@@ -13,7 +13,7 @@ window.addEventListener("message", function (e) {
 		chrome.runtime.sendMessage({action:'abortedAddress'});
 	} else if (e.data.action === 'createdAddress') {
 		chrome.runtime.sendMessage({action:'createdAddress'});
-	} else if (e.data.action === 'mapFound') {
+	} else if (e.data.action === 'addresshelperMapFound') {
 		chrome.runtime.sendMessage({action:'showPageAction'});
 	}
 });

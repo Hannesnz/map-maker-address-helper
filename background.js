@@ -1,24 +1,29 @@
-var supportedLanguages = [];//['en', 'en-US', 'en-GB'];
+var supportedLanguages = '[]';//['en', 'en-US', 'en-GB'];
 
-function OverlayData() {
-	this.showHints = false;
+function SavedData() {
+	this.showHints = true;
+	this.hideTranslateMessage = false;
 }
 
-OverlayData.prototype.loadData = function (sendResponse) {
+SavedData.prototype.loadData = function (sendResponse) {
 	var data = this;
 	chrome.storage.sync.get(null, function (items) {
 		if (!chrome.runtime.error) {
 			if (items.showHints != null) {
 				data.showHints = items.showHints;
 			}
+			if (items.hideTranslateMessage != null) {
+				data.hideTranslateMessage = items.hideTranslateMessage;
+			}
 		}
 		sendResponse();
 	});
 };
 
-OverlayData.prototype.saveData = function() {
+SavedData.prototype.saveData = function() {
 	var data = this;
 	chrome.storage.sync.set({showHints: data.showHints}, function() {});
+	chrome.storage.sync.set({hideTranslateMessage: data.hideTranslateMessage}, function() {});
 };
 
 var addressingTab = null;
@@ -100,34 +105,38 @@ function setPageActionIcon(tab, number) {
     img.src = "images/icon19.png";
 }
 
-chrome.runtime.onInstalled.addListener(function() {
-  chrome.declarativeContent.onPageChanged.removeRules(undefined, function() {
-    chrome.declarativeContent.onPageChanged.addRules([
-      {
-        conditions: [
-          new chrome.declarativeContent.PageStateMatcher({
-            pageUrl: { urlContains: '/mapmaker' }
-          })
-        ],
-        actions: [ new chrome.declarativeContent.ShowPageAction() ]
-      }
-    ]);
-  });
-});
-
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
     if (request.action === 'showPageAction') {
 		chrome.pageAction.show(sender.tab.id);
 	}
 });
 
-if (supportedLanguages.indexOf(chrome.i18n.getUILanguage()) < 0) {
-	chrome.contextMenus.removeAll();
-	chrome.contextMenus.create({
-		  title: "Help Translate...",
-		  contexts: ["page_action"],
-		  onclick: function() {
-			chrome.tabs.create({ url: "translate.html" });;
-		  }
-	});
+var savedData = null;
+
+if (savedData == null) {
+	savedData = new SavedData();
 }
+savedData.loadData(function () {
+	chrome.contextMenus.removeAll();
+	if (supportedLanguages.indexOf(chrome.i18n.getUILanguage()) < 0) {
+		chrome.contextMenus.create({
+			title: "Help Translate...",
+			contexts: ["page_action"],
+			onclick: function() {
+				chrome.tabs.create({ url: "translate.html" });
+			}
+		});
+	}
+	chrome.contextMenus.create({
+		title: chrome.i18n.getMessage("showHints"),
+		id: "addressHelperShowHints",
+		type: "checkbox",
+		contexts: ["page_action"],
+		checked: savedData.showHints,
+		onclick: function() {
+			savedData.showHints = !savedData.showHints;
+			savedData.saveData();
+			chrome.contextMenus.update("addressHelperShowHints", {checked: savedData.showHints})
+		}
+	});
+});

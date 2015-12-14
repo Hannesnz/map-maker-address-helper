@@ -1,15 +1,37 @@
-function getMap() {
+function findMapAddressHelper(F) {
+	for (func in F) {
+		if (func.length == 3 && typeof F[func] == "function") {
+			parent = F[func]();
+			if (parent != null)	{
+				props = Object.getOwnPropertyNames(parent);
+				for (i = 0; i <= props.length - 1; i++) {
+					subProps = Object.getOwnPropertyNames(parent[props[i]]);
+					for (j = 0; j <= subProps.length - 1; j++) {
+						if (parent[props[i]][subProps[j]] instanceof google.maps.Map) {
+							return parent[props[i]][subProps[j]]
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+var mapForAddressHelper = null;
+
+function getMapAddressHelper() {
 	var checkExist = setInterval(function() {
-		map = findMap(gGeowikiApplication.D);
-		if (map !=  null) {
+		mapForAddressHelper = findMapAddressHelper(gGeowikiApplication.D);
+		if (mapForAddressHelper !=  null) {
 			clearInterval(checkExist);
 
-			window.postMessage({action: 'mapFound'}, '*');
+			window.postMessage({action: 'addresshelperMapFound'}, '*');
 		}
 	}, 300);
 }
 
-getMap();
+getMapAddressHelper();
+
 window.addEventListener("message", function (e) {
     if (e.data.action === 'startAddressAdding') {
 		var checkReady = setInterval(function() {
@@ -46,7 +68,7 @@ window.addEventListener("message", function (e) {
 										for (var i = elements.length - 1; i >= 0; --i) {
 											var subElements = elements[i].getElementsByClassName('goog-menuitem-content');
 											for (var j = subElements.length - 1; j >= 0; --j) {
-												if (subElements[j].innerText == e.data.streetName) {
+												if (subElements[j].innerText.toUpperCase() === e.data.streetName.toUpperCase()) {
 													streetNameElement = subElements[j].parentNode;
 													break;
 												}
@@ -70,7 +92,7 @@ window.addEventListener("message", function (e) {
 										for (var i = elements.length - 1; i >= 0; --i) {
 											var subElements = elements[i].getElementsByClassName('goog-menuitem-content');
 											for (var j = subElements.length - 1; j >= 0; --j) {
-												if (subElements[j].innerText == e.data.city) {
+												if (subElements[j].innerText.toUpperCase() === e.data.city.toUpperCase()) {
 													cityElement = subElements[j].parentNode;
 													break;
 												}
