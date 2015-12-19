@@ -1,4 +1,4 @@
-var supportedLanguages = '[]';//['en', 'en-US', 'en-GB'];
+var supportedLanguages = ['en', 'en-US', 'en-GB'];
 
 function SavedData() {
 	this.showHints = true;
