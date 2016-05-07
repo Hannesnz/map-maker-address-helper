@@ -1,0 +1,95 @@
+{
+   "addressHelperDescription": {
+      "description": "Мітка, що описує розширення в спливаючому вікні",
+      "message": "Це автоматично додасть і збереже нову адресу для заданих опцій."
+   },
+   "appDesc": {
+      "description": "Опис програми відображається в веб-магазині.",
+      "message": "Створення маркерів адрес в Map Maker одним клацанням миші"
+   },
+   "appName": {
+      "description": "Назва програми, відображається в веб-магазині.",
+      "message": "Map Maker Address довідка"
+   },
+   "autoIncHint": {
+      "description": "Для автоматичного збільшення встановіть прапорець",
+      "message": "Якщо 'Автоматичне збільшення' увімкнено, будуть автоматично додаватись нові номери адрес при клацанні, поки не скасуєте"
+   },
+   "addressValue": {
+      "message": "Адрес",
+      "description":"This is 'Address' in the language set, that map maker uses when you 'Add Place'"
+   },
+   "autoIncLabel": {
+      "description": "Мітка для прапорця автоматичного збільшення",
+      "message": "Автоматичне збільшення"
+   },
+   "incByLabel": {
+      "description": "Поле, для значення автоматичного збільшення",
+      "message": "Збільшення на:"
+   },
+   "loading": {
+      "description": "Повідомлення, яке показує що завантажується спливаюче вікно",
+      "message": "Завантажую..."
+   },
+   "showHints": {
+      "description": "Мітка для показу підказки перемикачів пункту меню",
+      "message": "Показувати підказки"
+   },
+   "startAddingLabel": {
+      "description": "Мітка для кнопки пуску додавання",
+      "message": "Почати додавання адрес"
+   },
+   "streetNameHint": {
+      "description": "Підказка для назви вулиці",
+      "message": "Назва повинна бути така сама, як ви б вибрали її при додаванні вручну"
+   },
+   "streetNameTitle": {
+      "description": "Поле для назви вулиці",
+      "message": "Назва вулиці:"
+   },
+   "streetNumHint": {
+      "description": "Підказка для номеру",
+      "message": "Почннемо додавати адреси з цього номеру"
+   },
+   "streetNumTitle": {
+      "description": "Поле для номеру вулиці",
+      "message": "Номер вулиці:"
+   },
+   "townCityHint": {
+      "description": "Підказка для міста",
+      "message": "Вкажіть це значення, якщо місто не встановлюється автоматично"
+   },
+   "townCityTitle": {
+      "description": "Поле для міста",
+      "message": "Місто:"
+   },
+  "noStreetNumError": {
+    "description":"Error when no street number is specified",
+    "message": "Вкажіть початковий номер будинку."
+  },
+  "needWholeNumberError": {
+    "description":"Error when the street number is not a whole number and auto increment is checked",
+    "message": "Для автоматичного збільшення номер повинен бути цілим."
+  },
+  "noStreetNameError": {
+    "description":"Error when no street name is specified",
+    "message": "Вкажіть назву вулиці."
+  },
+  "numWithLetter": {
+    "description":"Confirmation that the address will auto increment the last letter (I.E. '123A').",
+    "message": "Автоматично змінювати останню літеру."
+  },
+  "numForUnits": {
+    "description":"Confirmation that the address will auto increment the first number for a 'unit address' (I.E. '1/10').",
+    "message": "Автоматично збільшувати номер будинку."
+  },
+  "streetNameNotFoundError": {
+    "description":"Error when the street name is not found",
+    "message": "Не знайдено вулицю з назвою: '$STREET_NAME$'.  Автоматичне додавання зупинено.",
+    "placeholders": {
+      "STREET_NAME": {
+        "content": "$1"
+      }
+    }
+  }
+}

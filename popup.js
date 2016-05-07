@@ -44,18 +44,28 @@ document.onreadystatechange = function (e) {
 						.click(function (event) {
 						event.preventDefault();
 						if ($("#addressStreetNum").val().trim() == "") {
-							alert("You must specify a street number.");
+							alert(chrome.i18n.getMessage("noStreetNumError"));
 							return;
 						}
-						if ($('#autoInc').prop('checked') && !(+$("#addressStreetNum").val()===parseInt($("#addressStreetNum").val()))) {
-							alert("Street number must be a whole number if auto incrementing.");
-							return;
+						if ($('#autoInc').prop('checked')) {
+							if (bg.letterAddress.test($("#addressStreetNum").val())) {
+								if (!confirm(chrome.i18n.getMessage("numWithLetter"))) {
+									return;
+								}
+							} else if (bg.unitAddress.test($("#addressStreetNum").val())) {
+								if (!confirm(chrome.i18n.getMessage("numForUnits"))) {
+									return;
+								}
+							} else if (!(+$("#addressStreetNum").val()===parseInt($("#addressStreetNum").val()))) {
+								alert(chrome.i18n.getMessage("needWholeNumberError"));
+								return;
+							}
 						}
 						if ($("#addressStreetName").val().trim() == "") {
-							alert("You must specify a street name.");
+							alert(chrome.i18n.getMessage("noStreetNameError"));
 							return;
 						}
-						bg.startAddressAdding(tabs[0], parseInt($("#addressStreetNum").val()), $("#addressStreetName").val(), $("#addressTownCity").val(), $('#autoInc').prop('checked'), $("#incBy").val());
+						bg.startAddressAdding(tabs[0], $("#addressStreetNum").val(), $("#addressStreetName").val(), $("#addressTownCity").val(), $('#autoInc').prop('checked'), $("#incBy").val());
 						window.close();
 					});
 					$("#closeTranslate").button({icons: {primary: "ui-icon-close"}, text: false})
@@ -64,6 +74,22 @@ document.onreadystatechange = function (e) {
 						$("#translateHelp").hide();
 						bg.savedData.hideTranslateMessage = true;
 						bg.savedData.saveData();
+					});
+					$("#addressStreetNum").focus();
+					$("#addressStreetNum").keyup(function (event) {
+						if (event.keyCode == 13) {
+							$("#startAddressAdding").click();
+						}
+					});
+					$("#addressStreetName").keyup(function (event) {
+						if (event.keyCode == 13) {
+							$("#startAddressAdding").click();
+						}
+					});
+					$("#addressTownCity").keyup(function (event) {
+						if (event.keyCode == 13) {
+							$("#startAddressAdding").click();
+						}
 					});
 				});
 			});

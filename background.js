@@ -1,4 +1,6 @@
-var supportedLanguages = ['en', 'en-US', 'en-GB'];
+var supportedLanguages = ['en', 'en-US', 'en-GB', 'uk'];
+var letterAddress = /[\d]+[\D]{1}/;
+var unitAddress = /([\d]+)\/([\d]+)\b/;
 
 function SavedData() {
 	this.showHints = true;
@@ -33,10 +35,12 @@ var currentCity;
 var currentAutoInc = true;
 var currentIncBy = 2;
 
-function addAddress() {
+function addAddress(isFirstTime) {
 	setPageActionIcon(addressingTab, currentStreetNum);
 	chrome.tabs.sendMessage(addressingTab.id, {
 		action: 'startAddressAdding',
+		addressValue: chrome.i18n.getMessage("addressValue"),
+		firstTime: isFirstTime,
 		streetNum: currentStreetNum, 
 		streetName: currentStreetName,
 		city: currentCity}, function (response) {});			
@@ -48,25 +52,39 @@ function startAddressAdding(tab, streetNum, streetName, city, autoInc, incBy) {
 	currentStreetName = streetName;
 	currentCity = city;
 	currentAutoInc = autoInc;
-	currentIncBy = +incBy;
-	addAddress();
+	currentIncBy = incBy;
+	addAddress(true);
 }
 
-chrome.runtime.onMessage.addListener(
+function stopAddressing() {
+	currentStreetNum = null;
+	setPageActionIcon(addressingTab, currentStreetNum);
+	addressingTab = null;
+}
 
-function (request, sender, sendResponse) {
-    if (request.action === 'createdAddress') {
+chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
+    if (request.action === 'showPageAction') {
+		chrome.pageAction.show(sender.tab.id);
+    } else if (request.action === 'createdAddress') {
 		if (currentAutoInc) {
-			currentStreetNum = +currentStreetNum + currentIncBy;
-			addAddress();
+			if (letterAddress.test(currentStreetNum)) {
+				currentStreetNum = currentStreetNum.slice(0, -1) + String.fromCharCode(currentStreetNum.slice(-1).charCodeAt() + 1);
+			} else if (unitAddress.test(currentStreetNum)) {
+				currentStreetNum = +currentStreetNum.replace(unitAddress, "$1") + +currentIncBy + "/" + currentStreetNum.replace(unitAddress, "$2");
+			} else {
+				currentStreetNum = +currentStreetNum + +currentIncBy;
+			}
+			addAddress(false);
+		} else {
+			stopAddressing();
 		}
     } else if (request.action === 'abortedAddress') {
-		currentStreetNum = null;
-		setPageActionIcon(addressingTab, currentStreetNum);
-		addressingTab = null;
+		stopAddressing();
+		if (request.invalidStreetName) {
+			alert(chrome.i18n.getMessage("streetNameNotFoundError", currentStreetName));
+		}
 	}
 });
-
 
 function setPageActionIcon(tab, number) {
     var canvas = document.createElement('canvas');
@@ -104,12 +122,6 @@ function setPageActionIcon(tab, number) {
     };
     img.src = "images/icon19.png";
 }
-
-chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
-    if (request.action === 'showPageAction') {
-		chrome.pageAction.show(sender.tab.id);
-	}
-});
 
 var savedData = null;
 

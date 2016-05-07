@@ -1,62 +1,95 @@
 {
   "appName": {
-    "message": "Map Maker Address Helper",
-    "description": "The title of the application, displayed in the web store."
+    "description": "The title of the application, displayed in the web store.",
+    "message": "Map Maker Address Helper"
   },
   "appDesc": {
-    "message": "Create address markers in Map Maker with one click",
-    "description":"The description of the application, displayed in the web store."
+    "description":"The description of the application, displayed in the web store.",
+    "message": "Create address markers in Map Maker with one click"
   },
   "loading": {
-    "message": "Loading...",
-    "description":"Message that shows while loading the popup"
+    "description":"Message that shows while loading the popup",
+    "message": "Loading..."
   },
   "addressHelperDescription": {
-    "message": "This will automatically add and save a new address for the given options.",
-    "description":"Label describing the extenstion in the popup"
+    "description":"Label describing the extenstion in the popup",
+    "message": "This will automatically add and save a new address for the given options."
+  },
+  "addressValue": {
+    "description":"This is 'Address' in the language set, that map maker uses when you 'Add Place'",
+    "message": "Address"
   },
   "streetNumTitle": {
-    "message": "Street Number:",
-    "description":"Label for street number"
+    "description":"Label for street number",
+    "message": "Street Number:"
   },
   "streetNumHint": {
-    "message": "Start adding addresses at this number",
-    "description":"Hint for street number"
+    "description":"Hint for street number",
+    "message": "Start adding addresses at this number"
   },
   "streetNameTitle": {
-    "message": "Street Name:",
-    "description":"Label for street name"
+    "description":"Label for street name",
+    "message": "Street Name:"
   },
   "streetNameHint": {
-    "message": "This needs to be exactly as you would pick it when adding manually",
-    "description":"Hint for street name"
+    "description":"Hint for street name",
+    "message": "This needs to be exactly as you would pick it when adding manually"
   },
   "townCityTitle": {
-    "message": "Town / City:",
-    "description":"Label for town / city"
+    "description":"Label for town / city",
+    "message": "Town / City:"
   },
   "townCityHint": {
-    "message": "Specify this if the Town / City doesn't get set automatically",
-    "description":"Hint for town / city"
+    "description":"Hint for town / city",
+    "message": "Specify this if the Town / City doesn't get set automatically"
   },
   "autoIncLabel": {
-    "message": "Auto Increment",
-    "description":"Label for auto increment check box"
+    "description":"Label for auto increment check box",
+    "message": "Auto Increment"
   },
   "autoIncHint": {
-    "message": "If you specify 'Auto Increment', once you place each address marker you can immediately place the next address number until you cancel",
-    "description":"Hint for auto increment check box"
+    "description":"Hint for auto increment check box",
+    "message": "If you specify 'Auto Increment', once you place each address marker you can immediately place the next address number until you cancel"
   },
   "incByLabel": {
-    "message": "Increment By:",
-    "description":"Label for increment by drop down"
+    "description":"Label for increment by drop down",
+    "message": "Increment By:"
   },
   "startAddingLabel": {
-    "message": "Start Adding",
-    "description":"Label for start adding button"
+    "description":"Label for start adding button",
+    "message": "Start Adding"
   },
   "showHints": {
-    "message": "Show Hints",
-    "description":"Label for show hints toggle menu item"
+    "description":"Label for show hints toggle menu item",
+    "message": "Show Hints"
+  },
+  "noStreetNumError": {
+    "description":"Error when no street number is specified",
+    "message": "You must specify a street number."
+  },
+  "needWholeNumberError": {
+    "description":"Error when the street number is not a whole number and auto increment is checked",
+    "message": "Street number must be a whole number if auto incrementing."
+  },
+  "noStreetNameError": {
+    "description":"Error when no street name is specified",
+    "message": "You must specify a street name."
+  },
+  "numWithLetter": {
+    "description":"Confirmation that the address will auto increment the last letter (I.E. '123A').",
+    "message": "This street number will auto increment the last letter up through the alphabet."
+  },
+  "numForUnits": {
+    "description":"Confirmation that the address will auto increment the first number for a 'unit address' (I.E. '1/10').",
+    "message": "This street number will auto increment the first number."
+  },
+  "streetNameNotFoundError": {
+    "description":"Error when the street name is not found",
+    "message": "Could not find street with name: '$STREET_NAME$'.  Aborting auto-add.",
+    "placeholders": {
+      "STREET_NAME": {
+        "content": "$1"
+      }
+    }
   }
 }
