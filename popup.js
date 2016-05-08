@@ -30,11 +30,52 @@ document.onreadystatechange = function (e) {
 					$("#loading").hide();
 					$("#container").show();
 					$("#addressStreetNum").val(bg.currentStreetNum);
-					$("#addressStreetName").val(bg.currentStreetName);
-					$("#addressTownCity").val(bg.currentCity);
 					$("#incBy").val(bg.currentIncBy);
 					$('#autoInc').prop('checked', bg.currentAutoInc);
 					$("#incBy").selectmenu();
+					var collectDetails;
+					if (bg.collectedStreetNames.length > 0) {
+						collectDetails = chrome.i18n.getMessage('collectNewDetails');
+					} else {
+						collectDetails = chrome.i18n.getMessage('collectDetails');
+					}
+
+					streetNames = bg.collectedStreetNames;
+					streetNames.reverse();
+					streetNames.forEach(function(name) {
+						$('#addressStreetName')
+							.append($("<option></option>")
+							.attr("value",name)
+							.text(name));
+					});
+					$('#addressStreetName')
+						.append($("<option></option>")
+						.text(collectDetails)); 
+
+					$('#addressStreetName')
+						.append($("<option></option>")
+						.text('')); 
+
+					cities = bg.collectedCities;
+					cities.reverse();
+					cities.forEach(function(name) {
+						$('#addressTownCity')
+							.append($("<option></option>")
+							.attr("value",name)
+							.text(name));
+					});
+
+					$('#addressTownCity')
+						.append($("<option></option>")
+						.text(collectDetails)); 
+
+					$('#addressTownCity')
+						.append($("<option></option>")
+						.text(''));
+
+					$("#addressStreetName").val(bg.currentStreetName).trigger('change');
+					$("#addressTownCity").val(bg.currentCity).trigger('change');
+
 					if (!bg.savedData.hideTranslateMessage) {
 						if (bg.supportedLanguages.indexOf(chrome.i18n.getUILanguage()) < 0) {
 							$('#translateHelp').show();
@@ -68,6 +109,29 @@ document.onreadystatechange = function (e) {
 						bg.startAddressAdding(tabs[0], $("#addressStreetNum").val(), $("#addressStreetName").val(), $("#addressTownCity").val(), $('#autoInc').prop('checked'), $("#incBy").val());
 						window.close();
 					});
+
+					$("#addressStreetName").selectmenu({
+						change: function(event, data) {
+							if (data.item.value === collectDetails)	{
+								event.preventDefault();
+								bg.findStreetNames(tabs[0]);
+								window.close();
+							}
+						}
+					});
+					$("#addressStreetName").selectmenu().selectmenu("menuWidget").css('max-height','150px');
+
+					$("#addressTownCity").selectmenu({
+						change: function(event, data) {
+							if (data.item.value === collectDetails)	{
+								event.preventDefault();
+								bg.findStreetNames(tabs[0]);
+								window.close();
+							}
+						}
+					});
+					$("#addressTownCity").selectmenu().selectmenu("menuWidget").css('max-height','150px');
+
 					$("#closeTranslate").button({icons: {primary: "ui-icon-close"}, text: false})
 						.click(function (event) {
 						event.preventDefault();
@@ -77,16 +141,6 @@ document.onreadystatechange = function (e) {
 					});
 					$("#addressStreetNum").focus();
 					$("#addressStreetNum").keyup(function (event) {
-						if (event.keyCode == 13) {
-							$("#startAddressAdding").click();
-						}
-					});
-					$("#addressStreetName").keyup(function (event) {
-						if (event.keyCode == 13) {
-							$("#startAddressAdding").click();
-						}
-					});
-					$("#addressTownCity").keyup(function (event) {
 						if (event.keyCode == 13) {
 							$("#startAddressAdding").click();
 						}

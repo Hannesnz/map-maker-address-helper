@@ -1,6 +1,8 @@
 var supportedLanguages = ['en', 'en-US', 'en-GB', 'uk'];
 var letterAddress = /[\d]+[\D]{1}/;
 var unitAddress = /([\d]+)\/([\d]+)\b/;
+var collectedStreetNames = [];
+var collectedCities = [];
 
 function SavedData() {
 	this.showHints = true;
@@ -56,6 +58,13 @@ function startAddressAdding(tab, streetNum, streetName, city, autoInc, incBy) {
 	addAddress(true);
 }
 
+function findStreetNames(tab) {
+	addressingTab = tab;
+	chrome.tabs.sendMessage(addressingTab.id, {
+		action: 'findStreetNames',
+		addressValue: chrome.i18n.getMessage("addressValue")}, function (response) {});			
+};
+
 function stopAddressing() {
 	currentStreetNum = null;
 	setPageActionIcon(addressingTab, currentStreetNum);
@@ -74,7 +83,7 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
 			} else {
 				currentStreetNum = +currentStreetNum + +currentIncBy;
 			}
-			addAddress(false);
+			setTimeout(function() {addAddress(false);}, 1500);
 		} else {
 			stopAddressing();
 		}
@@ -83,6 +92,9 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
 		if (request.invalidStreetName) {
 			alert(chrome.i18n.getMessage("streetNameNotFoundError", currentStreetName));
 		}
+    } else if (request.action === 'detailsFound') {
+		collectedStreetNames = request.streetNamesFound;
+		collectedCities = request.citiesFound;
 	}
 });
 

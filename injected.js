@@ -90,6 +90,7 @@ window.addEventListener("message", function (e) {
 										}
 
 										if (streetNameElement == null) {
+											document.getElementById('gw-edit-info-buttons').firstChild.click();
 											window.postMessage({action: 'abortedAddress', invalidStreetName: true}, '*');
 											return;
 										}
@@ -121,9 +122,94 @@ window.addEventListener("message", function (e) {
 											if (document.getElementById('opanel5').style.display == "") {
 												clearInterval(checkSaved);
 												document.getElementById('dbutton').click();
-												window.postMessage({action: 'createdAddress'}, '*');
+												var checkReadyAgain = setInterval(function() {
+													if ([null, "false"].indexOf(document.getElementById('kd-add-toolbar-menubutton').getAttribute('aria-disabled')) != -1) {
+														clearInterval(checkReadyAgain);
+														window.postMessage({action: 'createdAddress'}, '*');
+													}
+												}, 100);
 											}
 										}, 100);
+									}
+								}, 100);
+							}
+						}, 100);
+					}
+				}, 500);
+			}
+		}, 100);
+    }
+	if (e.data.action === 'findStreetNames') {
+		var streetNames = [];
+		var cities = [];
+		var checkReady = setInterval(function() {
+			if ([null, "false"].indexOf(document.getElementById('kd-add-toolbar-menubutton').getAttribute('aria-disabled')) != -1) {
+				clearInterval(checkReady);
+				document.getElementById('kd-add-poi').dispatchEvent(new MouseEvent("mousedown", {bubbles: true,  cancelable: true,  view: window}));
+				document.getElementById('kd-add-poi').dispatchEvent(new MouseEvent("mouseup", {bubbles: true,  cancelable: true,  view: window}));
+				var checkCateogry = setInterval(function() {
+					if (document.getElementById('kd-toolbar').style.display == "" && [null, "false"].indexOf(document.getElementById('kd-add-toolbar-menubutton').getAttribute('aria-disabled')) != -1) {
+						clearInterval(checkCateogry);
+						window.postMessage({action: 'abortedGetStreetNames'}, '*');
+						return;
+					}
+					if (document.getElementById('kd-toolbar-floater').style.display == "") {
+						clearInterval(checkCateogry);
+						document.getElementById('kd-category-selection-input').value = e.data.addressValue + '\n';
+						document.getElementById('kd-category-selection-input').blur();
+						var checkEnabled = setInterval(function() {
+							if (document.getElementById('kd-select-category-button').getAttribute('aria-disabled') == "false") {
+								clearInterval(checkEnabled);
+								document.getElementById('kd-select-category-button').dispatchEvent(new MouseEvent("mousedown", {bubbles: true,  cancelable: true,  view: window}));
+								document.getElementById('kd-select-category-button').dispatchEvent(new MouseEvent("mouseup", {bubbles: true,  cancelable: true,  view: window}));
+								var checkForm = setInterval(function() {
+									if (document.getElementById('gw-panelinfo-edit').style.display == "") {
+										clearInterval(checkForm);
+										elements = document.querySelectorAll("div[data-field-id='address_street_name']");
+
+										streetSelector = elements[1].firstChild.firstChild;
+										streetSelector.dispatchEvent(new MouseEvent("mousedown", {bubbles: true,  cancelable: true,  view: window}))
+										streetSelector.dispatchEvent(new MouseEvent("mouseup", {bubbles: true,  cancelable: true,  view: window}))
+										
+										elements = document.querySelectorAll(".goog-menu-vertical");
+										for (var i = elements.length - 1; i >= 0; --i) {
+											if (elements[i].offsetParent !== null) {
+												subElements = elements[i].getElementsByClassName('goog-menuitem-content');
+												for (var j = subElements.length - 1; j >= 0; --j) {
+													if (subElements[j].innerText !== '- - -') {
+														streetNames.push(subElements[j].innerText);
+													}
+												}
+											}
+										}
+
+										streetSelector.dispatchEvent(new MouseEvent("mousedown", {bubbles: true,  cancelable: true,  view: window}))
+										streetSelector.dispatchEvent(new MouseEvent("mouseup", {bubbles: true,  cancelable: true,  view: window}))
+
+										elements = document.querySelectorAll("div[data-field-id='address_city']");
+
+										streetSelector = elements[1].firstChild.firstChild;
+										streetSelector.dispatchEvent(new MouseEvent("mousedown", {bubbles: true,  cancelable: true,  view: window}))
+										streetSelector.dispatchEvent(new MouseEvent("mouseup", {bubbles: true,  cancelable: true,  view: window}))
+										
+										elements = document.querySelectorAll(".goog-menu-vertical");
+										for (var i = elements.length - 1; i >= 0; --i) {
+											if (elements[i].offsetParent !== null) {
+												subElements = elements[i].getElementsByClassName('goog-menuitem-content');
+												for (var j = subElements.length - 1; j >= 0; --j) {
+													if (subElements[j].innerText !== '- - -') {
+														cities.push(subElements[j].innerText);
+													}
+												}
+											}
+										}
+
+										streetSelector.dispatchEvent(new MouseEvent("mousedown", {bubbles: true,  cancelable: true,  view: window}))
+										streetSelector.dispatchEvent(new MouseEvent("mouseup", {bubbles: true,  cancelable: true,  view: window}))
+
+										document.getElementById('gw-edit-info-buttons').firstChild.click();
+
+										window.postMessage({action: 'detailsFound', streetNamesFound: streetNames, citiesFound: cities}, '*');
 									}
 								}, 100);
 							}

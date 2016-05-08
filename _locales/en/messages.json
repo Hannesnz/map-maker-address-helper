@@ -91,5 +91,13 @@
         "content": "$1"
       }
     }
+  },
+  "collectDetails": {
+    "description":"Menu item value to collect address details for a point on the map.",
+    "message": "Collect address details"
+  },
+  "collectNewDetails": {
+    "description":"Menu item value to collect new address details for a point on the map.",
+    "message": "Collect new address details"
   }
 }
